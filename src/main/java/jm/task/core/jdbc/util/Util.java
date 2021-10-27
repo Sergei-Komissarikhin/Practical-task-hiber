@@ -14,12 +14,8 @@ public class Util {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(dbURL, dbUSER_NAME, dbPASSWORD);
-            if (!connection.isClosed()) {
-                System.out.println("Соединение установлено!");
-            }
         } catch (SQLException e) {
             System.out.println("Ошибка соединения");
-
         }
         return connection;
     }
