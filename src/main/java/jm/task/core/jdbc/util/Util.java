@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.util;
 
 import jm.task.core.jdbc.model.User;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
@@ -10,12 +11,20 @@ import java.util.Properties;
 public class Util {
     // реализуйте настройку соеденения с БД
 
-    private static SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory;
+
 
     public static SessionFactory getSessionFactory() {
-        sessionFactory = getConfig().buildSessionFactory();
-        System.out.println("SessionFactory is working? = " + !sessionFactory.isClosed());
+        try {
+            sessionFactory = getConfig().buildSessionFactory();
+        }catch(HibernateException ex){
+            System.err.println("SessionFactory create is failed");
+        }
         return sessionFactory;
+    }
+
+    public static void closeSessionFactory(){
+        sessionFactory.close();
     }
 
     private static Configuration getConfig() {
@@ -25,7 +34,7 @@ public class Util {
         return config;
     }
 
-    private static Properties getProperties() {
+    private static Properties getProperties()  {
         Properties prop = new Properties();
         prop.setProperty(Environment.DIALECT,
                 "org.hibernate.dialect.MySQL5Dialect");
@@ -36,7 +45,8 @@ public class Util {
         prop.setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
         prop.setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
 //        prop.setProperty(Environment.HBM2DDL_AUTO, "update");
-        System.out.println("Properties recorded");
         return prop;
     }
+
+
 }

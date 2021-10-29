@@ -13,8 +13,8 @@ import org.hibernate.Transaction;
 public class Main {
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
-        UserService userService = new UserServiceImpl();
 
+        UserService userService = new UserServiceImpl();
         userService.createUsersTable();
         userService.saveUser("Vova", "Ivanov", (byte) 37);
         userService.saveUser("Ivan", "Sergeev", (byte) 37);
@@ -23,5 +23,7 @@ public class Main {
         userService.getAllUsers().forEach(System.out::println);
         userService.cleanUsersTable();
         userService.dropUsersTable();
+        Util.closeSessionFactory();
+
     }
 }
