@@ -44,9 +44,7 @@ public class Util {
         prop.setProperty(Environment.SHOW_SQL, "true");
         prop.setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
         prop.setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-//        prop.setProperty(Environment.HBM2DDL_AUTO, "update");
+        prop.setProperty(Environment.HBM2DDL_AUTO, "update");
         return prop;
     }
-
-
 }

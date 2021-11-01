@@ -6,6 +6,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,6 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (HibernateException ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override
@@ -63,10 +64,10 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         try {
-
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-            session.createSQLQuery("DELETE FROM users WHERE id = " + id)
+            session.createQuery("DELETE User WHERE id = :id")
+                    .setParameter("id",id)
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException ex) {
@@ -86,7 +87,6 @@ public class UserDaoHibernateImpl implements UserDao {
             ex.printStackTrace();
         }
         return userList;
-
     }
 
     @Override
@@ -94,7 +94,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-            session.createSQLQuery("DELETE FROM users").executeUpdate();
+            session.createQuery("DELETE User").executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException ex) {
             ex.printStackTrace();
